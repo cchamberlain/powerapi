@@ -1,7 +1,9 @@
 import React from "react";
 import { RouteHandler } from "react-router";
 
-import './Application.less';
+import bootstrap from "bootstrap-webpack"
+import fontawesome from "font-awesome-webpack"
+import styles from "./Application.less"
 
 import { Grid, Row, Col } from "react-bootstrap"
 
