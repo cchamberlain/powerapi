@@ -1,6 +1,7 @@
 import async from "async"
 import React from "react"
 import Router from "react-router"
+import ReactDOM from "react-dom"
 import ReactUpdates from "react/lib/ReactUpdates"
 import StoresWrapper from "./StoresWrapper"
 import withTimeout from "./helpers/withTimeout"
@@ -10,6 +11,8 @@ export default function renderApplication(routes, stores, options) {
   let initialRun = true
 
   // react-router handles location
+  ReactDOM.render(<Router>{routes}</Router>, document.getElementById("content"))
+  /*
   Router.run(routes, Router.HistoryLocation, function(Application, state) {
 
     // On every page navigation invalidate data from the stores
@@ -40,10 +43,11 @@ export default function renderApplication(routes, stores, options) {
       })
 
       // Render the components with the stores
-      React.render(
+      ReactDOM.render(
         <StoresWrapper Component={Application} stores={stores}/>,
         document.getElementById("content")
       )
     })
-  })
-}
+*/
+  }
+
