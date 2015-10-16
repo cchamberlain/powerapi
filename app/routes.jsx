@@ -2,9 +2,9 @@ import React from "react"
 import { Route, IndexRoute } from "react-router"
 
 /* eslint-disable no-multi-spaces */
-import Application  from "routes/Application"
-import Home from "routes/HomePage"
-import NoMatch from "routes/NotFoundPage"
+import App from "routes/App"
+import Home from "routes/Home"
+import NoMatch from "routes/NoMatch"
 /* eslint-enable */
 
 // polyfill
@@ -13,7 +13,7 @@ if(!Object.assign)
 
 // export routes
 let Routes = (
-  <Route path="/" component={Application}>
+  <Route path="/" component={App}>
     <IndexRoute handler={Home}/>
     <Route path="*" component={NoMatch} />
   </Route>

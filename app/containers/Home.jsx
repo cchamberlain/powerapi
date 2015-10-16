@@ -1,9 +1,9 @@
-import React from "react";
-import { Grid, Row, Col } from "react-bootstrap"
+import React from 'react'
+import { Grid, Row, Col } from 'react-bootstrap'
 
-export default class HomePage extends React.Component {
+export default class Home extends React.Component {
 	static getProps() {
-		return {};
+		return {}
 	}
 	render() {
 		return <div>

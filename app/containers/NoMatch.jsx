@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-export default class NotFoundPage extends React.Component {
+export default class NoMatch extends React.Component {
   static getProps() {
     return {};
   }
@@ -8,6 +8,6 @@ export default class NotFoundPage extends React.Component {
     return <div>
       <h2>Not found</h2>
       <p>The page you requested was not found.</p>
-    </div>;
+    </div>
   }
 }

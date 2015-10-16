@@ -2,13 +2,13 @@
   "name": "powerapi",
   "version": "0.1.0",
   "description": "powershell web api connectivity",
-  "main": "lib\\server.js",
+  "main": "server\\server-prod.js",
   "scripts": {
     "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline",
     "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
-    "start-dev": "node lib/server-dev",
-    "start": "node lib/server-prod"
+    "start-dev": "node server/server-dev",
+    "start": "node server/server-prod"
   },
   "author": "Cole Chamberlain",
   "repository": "https://github.com/cchamberlain/powerapi",

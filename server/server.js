@@ -16,11 +16,10 @@ export default function (options) {
   server.use(restify.bodyParser());
   server.use(restify.requestLogger());
 
-  server.use(restify.CORS({
-    origins: ['https://devtix.net', 'http://localhost:8080', ],   // defaults to ['*']
-    credentials: true,                 // defaults to false
-    headers: ['content-type']                 // sets expose-headers
-  }))
+  server.use(restify.CORS({ origins: options.hostname ? [`https://${options.hostname}:${options.port}`] : [`https://localhost:${options.port}`]
+                          , credentials: true
+                          , headers: ['content-type']
+                          }))
 
   // require the page rendering logic
   let publicPath = "http://localhost:2992/assets"
