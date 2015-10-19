@@ -7,42 +7,18 @@
     "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline",
     "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
-    "start-dev": "node server/server-dev",
-    "start": "node server/server-prod"
+    "start-dev": "babel-node server/server-dev",
+    "start": "babel-node server/server-prod"
   },
   "author": "Cole Chamberlain",
   "repository": "https://github.com/cchamberlain/powerapi",
   "license": "MIT",
-  "babel": {
-    "stage": 0,
-    "env": {
-      "development": {
-        "plugins": [
-          "react-transform"
-        ],
-        "extra": {
-          "react-transform": {
-            "transforms": [
-              {
-                "transform": "react-transform-hmr",
-                "imports": [
-                  "react"
-                ],
-                "locals": [
-                  "module"
-                ]
-              }
-            ]
-          }
-        }
-      }
-    }
-  },
   "dependencies": {
     "babel": "^5.8.23",
     "babel-loader": "latest",
     "bunyan": "^1.5.1",
     "css-loader": "^0.19.0",
+    "graphql": "^0.4.7",
     "items-store": "^0.7.0",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
@@ -55,6 +31,7 @@
     "restify": "^4.0.3",
     "style-loader": "^0.12.4",
     "superagent": "^1.4.0",
+    "sweetalert-react": "^0.4.2",
     "uuid": "^2.0.1"
   },
   "devDependencies": {

@@ -1,25 +1,25 @@
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
-import EndpointList from 'elements/EndpointList'
+import { EndpointForm } from 'elements/endpoints'
+import { chainLog } from 'helpers/logging'
 
 export default class Setup extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { endpoints: props.endpoints }
+    this.state =  { endpoints: props.endpoints }
   }
   render() {
-    return <div>
-    <Row>
+    return <Row>
       <Col xs={12}>
         <h3>Setup - Register endpoints to listen for events</h3>
         <p>Endpoints</p>
-        <EndpointList endpoints={this.props.endpoints}></EndpointList>
+        <EndpointForm endpoints={this.state.endpoints} />
       </Col>
     </Row>
-    </div>
   }
 }
 
-Setup.propTypes = { endpoints: React.PropTypes.array }
-Setup.defaultProps =  { endpoints:  [ "//localhost:1337/deploy" ]
+Setup.propTypes = { endpoints: React.PropTypes.array
+                  }
+Setup.defaultProps =  { endpoints:  [ "http://localhost:1337/deploy" ]
                       }

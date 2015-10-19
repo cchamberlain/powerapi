@@ -2,8 +2,8 @@ import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 
 export default class Home extends React.Component {
-	static getProps() {
-		return {}
+	constructor(props) {
+		super(props)
 	}
 	render() {
 		return <div>

@@ -7,9 +7,25 @@ module.exports = function(options) {
   var root = path.join(__dirname, "app")
   var loaders = [ { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' }
                 , { test: /\.jsx$/, loader: "babel-loader?stage=0" }
-                , { test: /\.js$/, loader: "babel-loader?stage=0", include: path.join(__dirname, "app") }
+                //, { test: /\.js$/, loader: "babel-loader?stage=0", include: path.join(__dirname, "app") }
+                , { test: /\.js$/, exclude: /node_modules/, loader: 'babel', query:
+                    { stage: 0
+                    , plugins: ['react-transform']
+                    , extra:  { "react-transform":  [ { "target": "react-transform-hmr"
+                                                      , "imports": ["react"]
+                                                      , "locals": ["module"]
+                                                      }
+                                                    , { "target": "react-transform-catch-errors"
+                                                      , "imports": ["react", "redbox-react"]
+                                                      }
+                                                    ]
+                              }
+                    }
+                  }
                 , { test: /\.json$/, loader: "json-loader" }
-                , { test: /\.less$/, loader: ExtractTextPlugin.extract('css?sourceMap!less?sourceMap') }
+                , { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }
+                , { test: /\.css$/, loader: 'style-loader!css-loader' }
+                //, { test: /\.less$/, loader: ExtractTextPlugin.extract('css?sourceMap!less?sourceMap') }
                 , { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" }
                 , { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
                 ]
@@ -25,7 +41,7 @@ module.exports = function(options) {
     plugins.push(new webpack.optimize.DedupePlugin())
     plugins.push(new webpack.optimize.UglifyJsPlugin())
   }
-  plugins.push(new ExtractTextPlugin('powerapi.css'))
+  // plugins.push(new ExtractTextPlugin('powerapi.css'))
 
   return  { cache: true
           , watch: options.watch
