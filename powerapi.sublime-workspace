@@ -1,0 +1,404 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ARCHIVE_ROOT",
+				"ARCHIVE_MODIFIED_ROOT"
+			],
+			[
+				"Fore",
+				"ForegroundColor"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 188.0,
+		"last_filter": "indent",
+		"selected_items":
+		[
+			[
+				"indent",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"inde",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"format",
+				"CodeFormatter: Format Code"
+			],
+			[
+				"build",
+				"Build With: Powershell"
+			],
+			[
+				"",
+				"CodeFormatter: Format Code"
+			],
+			[
+				"BUILD",
+				"Build: Cancel"
+			],
+			[
+				"build powe",
+				"Build With: Powershell"
+			],
+			[
+				"powershell",
+				"Build With: Powershell"
+			],
+			[
+				"code form",
+				"CodeFormatter: Format Code"
+			],
+			[
+				"install p",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"install pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 466.0
+	},
+	"console":
+	{
+		"height": 142.0,
+		"history":
+		[
+			":q",
+			"exit",
+			"dir",
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": false,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/ColeChamberlain/cchamberlain/powerapi"
+	],
+	"file_history":
+	[
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/admin/view.html",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/etc/test.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/etc/README.md",
+		"/C/Users/ColeChamberlain/tixinc/config/json/client/api.json",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Settings/SideBarEnhancements.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/config-client.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/base/cookie/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/base/encoding/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/base/identity/controller.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/admin/admin.less",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/admin/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/admin/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/admin/controller.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/config/settings.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/api/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/srv/assets/tix.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/etc/debug.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/etc/release.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/etc/test.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/etc/dev.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/etc/beta.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/etc/common.json",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/config/functions.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/make-webpack-config.js",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pod.ps1",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/modals/login/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/menu/main/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/areas/account/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/areas/event/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/areas/home/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/areas/landing/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/areas/production/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/areas/ticket/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/libs/index.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/etc/dev.json",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixWebApp/etc/target",
+		"/C/Users/ColeChamberlain/tixinc/scripts/rdiff.ps1",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/nav/topbar/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/nav/footer/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/start/config.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/lib/api/index.js",
+		"/C/Users/ColeChamberlain/Desktop/deploy-10_1_2015/pods/pod_TixLibraries_dev/etc/delete",
+		"/C/Users/ColeChamberlain/Desktop/deploy-10_1_2015/pods/pod_TixWebApp_dev/etc/delete",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/node_modules/ngtemplate-loader/test/src/baggage-test/baggage-test.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/node_modules/ngtemplate-loader/examples/baggage/my-directive/my-directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/node_modules/ngtemplate-loader/README.md",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/widgets/tixtv/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/widgets/tixnews/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/widgets/tixknowledgebase/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/widgets/recentlyvisited/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/widgets/contacttix/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/login/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/debug/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/panels/dashboard/directive.js",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/client/core/menu/main/flyout-tpls.js",
+		"/C/Users/ColeChamberlain/tixinc/config/json/client/template.json",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/diff/left.csv",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/diff/right.csv",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/diff/summary.txt",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixLibraries/etc/archive",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixWebApp/etc/archive",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixWebApp/etc/delete",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixLibraries/etc/delete",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixLibraries/etc/target",
+		"/C/Windows/System32/inetsrv/config/applicationHost.config",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixWebApp/deleted",
+		"/C/Users/ColeChamberlain/tixinc/scripts/pods/pod-queenmary2-TixWebApp/files/web.config",
+		"/C/Users/ColeChamberlain/tixinc/ext/README.md",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod/README.md",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod-unc/etc/archive",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod-queenmary2/etc/archive",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod-unc/etc/target",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod-queenmary2/etc/target",
+		"/C/Users/ColeChamberlain/tixinc/scripts/data/delete.txt",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod/etc/delete",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod/etc/target",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod/etc/archive",
+		"/C/Users/ColeChamberlain/tixinc/scripts/test/pod-queenmary2/files/web.config",
+		"//queenmary2/Tix/web.config",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/tixinc-js.sublime-project",
+		"/C/Users/ColeChamberlain/tixinc/scripts/data/files-to-delete.txt",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/Theme - Sodarized/Soda Dark 3.sublime-theme",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/LICENSE.txt",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/Sodarized Dark 3.sublime-theme",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/CodeFormatter.sublime-settings",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/iterate-list.ps1",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/User/files-to-delete",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/etc/common.json",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/CodeFormatter/CodeFormatter.sublime-settings",
+		"/C/Users/ColeChamberlain/tixinc/tixinc-js/etc/beta.json",
+		"/C/Users/ColeChamberlain/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"//queenmary2/Tix/GlobalInclude.asp",
+		"//queenmary2/Tix/Management/CashDrawerClose.asp",
+		"/C/Users/ColeChamberlain/Desktop/svn-delta/TixWebApp/PWReset.aspx.cs",
+		"//queenmary2/DLLBuild/LibraryCSBuild.bat",
+		"//queenmary2/TixLibraries/LibraryCSBuild.bat"
+	],
+	"find":
+	{
+		"height": 25.0
+	},
+	"find_in_files":
+	{
+		"height": 92.0,
+		"where_history":
+		[
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js,C:\\Users\\ColeChamberlain\\tixinc\\config",
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js,C:\\Users\\ColeChamberlain\\tixinc\\config,-C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js\\srv\\assets\\*.js",
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js,C:\\Users\\ColeChamberlain\\tixinc\\config,-C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js\\srv\\assets\\*",
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js,C:\\Users\\ColeChamberlain\\tixinc\\config,-C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js\\srv\\assets\\",
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js,C:\\Users\\ColeChamberlain\\tixinc\\config,-node_modules,-srv\\assets\\*",
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js,C:\\Users\\ColeChamberlain\\tixinc\\config,-node_modules,-srv\\assets",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"tix_",
+			"offset-",
+			"offset",
+			"client.log",
+			"-authorize-",
+			"client settings api",
+			"bindHtmlUnsafe",
+			"setCookie",
+			"getHttp",
+			"getHTTP",
+			"context.",
+			"client.context",
+			"shortcutting",
+			"canImpersonateOrganization",
+			"isAdmin",
+			"C:\\Users\\ColeChamberlain\\tixinc\\tixinc-js\\srv\\assets\\",
+			"isOrganizationAdmin",
+			"api('token",
+			"secure",
+			"client-config",
+			"templateUrl: require",
+			"templateUrl",
+			"core/panels/admin/view.html",
+			"core/nav/topbar/view.html",
+			"fn.templateUrl",
+			"core/nav/topbar/view.html",
+			"template",
+			"login/view",
+			"fa-unlock",
+			"mkdirp",
+			"Relative",
+			"SetWorkDir",
+			"PrintDebug",
+			"link",
+			"linkJson",
+			"requireUp"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Log"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.exec":
+	{
+		"height": 235.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "powerapi.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"etc/common",
+				"tixinc-js\\etc\\common.json"
+			],
+			[
+				"dev",
+				"etc\\dev.json"
+			],
+			[
+				"beta",
+				"etc\\beta.json"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 375.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 570.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"vintage":
+		{
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 255.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 3
+	}
+}
