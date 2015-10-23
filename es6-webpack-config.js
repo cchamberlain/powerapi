@@ -123,6 +123,9 @@ export default function makeConfig(options) {
                     , filename: 'powerapi.js'
                     , chunkFilename: "[chunkhash].js"
                     }
+          , resolveLoader: {
+            modulesDirectories: ['web_modules', 'node_modules']
+          }
           , resolve:  { root: root
                       , extensions: extensions
                       , modulesDirectories: [ 'web_modules', 'node_modules' ]
