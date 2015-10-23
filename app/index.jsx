@@ -16,4 +16,12 @@ ReactDOM.render((
       <Route path="*" component={NoMatch}/>
     </Route>
   </Router>
-  ), document.getElementById("content"))
+  ), document.getElementById("root"))
+
+
+if (module.hot) {
+  module.hot.accept();
+  module.hot.dispose(function() {
+    clearInterval(timer);
+  });
+}

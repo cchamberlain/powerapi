@@ -16,8 +16,10 @@ export class EndpointForm extends React.Component {
                   , endpoints: props.endpoints
                   }
   }
-  handleChange = e => this.setState({url: e.target.value})
-  handleAdd = e => {
+  handleChange = (e) => {
+    this.setState({url: e.target.value})
+  }
+  handleAdd(e) {
     let url = `${this.state.scheme}:\/\/${this.state.hostname}:${this.state.port}/${this.state.path}`
     console.log(url)
     if(validateUrl(url)) {

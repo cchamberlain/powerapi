@@ -12,7 +12,7 @@ export default class Setup extends React.Component {
     return <Row>
       <Col xs={12}>
         <h3>Setup - Register endpoints to listen for events</h3>
-        <p>Endpoints</p>
+        <p>Endpoints - This is some more code</p>
         <EndpointForm endpoints={this.state.endpoints} />
       </Col>
     </Row>

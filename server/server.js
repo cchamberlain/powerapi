@@ -7,12 +7,14 @@ import prerenderApi from "./api/prerender"
 export default class Server {
   constructor(options) {
     this.props = options
+    this.props.middlewares = []
+  }
+  use(middleware) {
+    this.props.middlewares.push(middleware)
   }
   start() {
-
     let server = restify.createServer()
     server.pre(restify.pre.userAgentConnection())
-
     server.use(restify.acceptParser(server.acceptable))
     server.use(restify.authorizationParser())
     server.use(restify.dateParser())
@@ -20,6 +22,8 @@ export default class Server {
     server.use(restify.gzipResponse())
     server.use(restify.bodyParser())
     server.use(restify.requestLogger())
+
+    this.props.middlewares.map(_ => { server.use(_) })
 
     server.use(restify.CORS({ origins: this.props.hostname
       ? [`http:\/\/${this.props.hostname}:${this.props.port}`]

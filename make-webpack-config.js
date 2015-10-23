@@ -6,19 +6,19 @@ var path = require("path")
 module.exports = function(options) {
   var root = path.join(__dirname, "app")
   var loaders = [ { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' }
-                , { test: /\.jsx$/, loader: "babel-loader?stage=0" }
-                //, { test: /\.js$/, loader: "babel-loader?stage=0", include: path.join(__dirname, "app") }
+                , { test: /\.jsx$/, loader: "babel-loader?stage=0", include: path.join(__dirname, "app") }
                 , { test: /\.js$/, exclude: /node_modules/, loader: 'babel', query:
-                    { stage: 0
-                    , plugins: ['react-transform']
-                    , extra:  { "react-transform":  [ { "target": "react-transform-hmr"
-                                                      , "imports": ["react"]
-                                                      , "locals": ["module"]
-                                                      }
-                                                    , { "target": "react-transform-catch-errors"
-                                                      , "imports": ["react", "redbox-react"]
-                                                      }
-                                                    ]
+                    { plugins: ['react-transform']
+                    , extra: { 'react-transform':
+                                { transforms: [ { transform: 'react-transform-hmr'
+                                      , imports: ['react']
+                                      , locals: ['module']
+                                      }
+                                    , { transform: 'react-transform-catch-errors'
+                                      , imports: ['react', 'redbox-react']
+                                      }
+                                    ]
+                                }
                               }
                     }
                   }
@@ -32,8 +32,11 @@ module.exports = function(options) {
 
   var extensions = ["", ".webpack.js", ".web.js", ".js", ".jsx"]
 
-  var plugins = [ new webpack.PrefetchPlugin("react")
-                , new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")
+  var plugins = [ /*new webpack.PrefetchPlugin("react")
+                , new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")*/
+                , new webpack.optimize.OccurenceOrderPlugin(),
+                , new webpack.HotModuleReplacementPlugin(),
+                , new webpack.NoErrorsPlugin()
                 , new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery","window.jQuery": "jquery" })
                 ]
 
@@ -43,15 +46,19 @@ module.exports = function(options) {
   }
   // plugins.push(new ExtractTextPlugin('powerapi.css'))
 
-  return  { cache: true
-          , watch: options.watch
-          , devtool: options.devtool || 'eval'
-          , entry:  [ "bootstrap-webpack!./config/bootstrap.config.js"
-                    , "font-awesome-webpack!./config/font-awesome.config.js"
-                    , "./app/index.jsx"
+  return  { devtool: '#source-map'
+          //, cache: true
+          //, watch: options.watch
+          //, devtool: options.devtool || 'eval'
+          , context: __dirname
+          , entry:  [ 'bootstrap-webpack!./config/bootstrap.config.js'
+                    , 'font-awesome-webpack!./config/font-awesome.config.js'
+                    , 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
+                    , './app/index.jsx'
                     ]
           , output: { path: join(__dirname, 'build', 'assets')
-                    , publicPath: 'http://localhost:2992/assets/'
+                    //, publicPath: 'http://localhost:2992/assets/'
+                    , publicPath: '/'
                     , filename: 'powerapi.js'
                     , chunkFilename: "[chunkhash].js"
                     }
