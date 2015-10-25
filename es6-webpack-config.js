@@ -6,26 +6,28 @@ let join = path.join
 
 export default function makeConfig(options) {
   let root = join(__dirname, "app")
-  let loaders = [ { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' }
-                , { test: /\.jsx?$/, loaders: ['babel'], include: path.join(__dirname, "app") }
-                , {
-            test: /\.js$|\.jsx$|\.es6$|\.babel$/,
-            loader: 'babel',
-            query: {
-                stage: 0,
-                plugins: ['react-transform'],
-                extra: {
-                "react-transform": [{
-                    "target": "react-transform-hmr",
-                    "imports": ["react"],
-                    "locals": ["module"]
-                }, {
-                    "target": "react-transform-catch-errors",
-                    "imports": ["react", "redbox-react"]
-                }]
-            }
-        }
-    }
+  let loaders = [ //{ test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' }
+                //, { test: /\.jsx?$/, loaders: ['babel'], include: path.join(__dirname, "app") }
+               // ,
+                { test: /\.js$|\.jsx$|\.es6$|\.babel$/, include: /app/
+                  , loader: 'babel'
+                  , query:  { stage: 0
+                            , plugins: ['react-transform']
+                            , "extra":
+                              { "react-transform":
+                                { "transforms":
+                                  [ { "transform": "react-transform-hmr"
+                                    , "imports": ["react"]
+                                    , "locals": ["module"]
+                                    }
+                                  , { "transform": "react-transform-catch-errors"
+                                    , "imports": ["react", "redbox-react"]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                  }
                 //, { test: /\.js$/, loader: 'babel', exclude: /node_modules/ }
                 /*
                 , { test: /\.jsx$/, loader: 'babel', exclude: /node_modules/, query:
@@ -45,9 +47,9 @@ export default function makeConfig(options) {
                     }
                   }
                   */
-                , { test: /\.json$/, loader: "json-loader" }
-                , { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }
-                , { test: /\.css$/, loader: 'style-loader!css-loader' }
+                  , { test: /\.json$/, loader: "json-loader" }
+                  , { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }
+                  , { test: /\.css$/, loader: 'style-loader!css-loader' }
                 //, { test: /\.less$/, loader: ExtractTextPlugin.extract('css?sourceMap!less?sourceMap') }
                 , { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" }
                 , { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
@@ -98,40 +100,46 @@ export default function makeConfig(options) {
 }
 
 
-                 */
+*/
 
-  let extensions = ["", ".webpack.js", ".web.js", ".js", ".jsx"]
+let extensions = ["", ".webpack.js", ".web.js", ".js", ".jsx"]
 
   //let plugins = [ new webpack.PrefetchPlugin("react")
   //              , new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")*/
-  let plugins = [ new webpack.optimize.OccurenceOrderPlugin()
-                , new webpack.HotModuleReplacementPlugin()
-                , new webpack.NoErrorsPlugin()
-                , new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery","window.jQuery": "jquery" })
-                ]
+  let plugins =
+  [ new webpack.optimize.OccurenceOrderPlugin()
+  , new webpack.HotModuleReplacementPlugin()
+  , new webpack.NoErrorsPlugin()
+  , new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery","window.jQuery": "jquery" })
+  ]
 
 
   return  { devtool: 'eval'
-          , context: __dirname
-          , entry:  [ 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
-                    , 'bootstrap-webpack!./config/bootstrap.config.js'
-                    , 'font-awesome-webpack!./config/font-awesome.config.js'
-                    , './app/index.jsx'
-                    ]
-          , output: { path: join(__dirname, 'build', 'assets')
-                    , publicPath: '/'
-                    , filename: 'powerapi.js'
-                    , chunkFilename: "[chunkhash].js"
-                    }
-          , resolveLoader: {
-            modulesDirectories: ['web_modules', 'node_modules']
-          }
-          , resolve:  { root: root
-                      , extensions: extensions
-                      , modulesDirectories: [ 'web_modules', 'node_modules' ]
-                      , fallback: [ 'node_modules/bootstrap/fonts' ]
-                      , request: 'browser-request'
-                      }
+          //, context: __dirname
+          , entry:
+            [ 'webpack-hot-middleware/client'
+            //[ 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
+            , 'bootstrap-webpack!./config/bootstrap.config.js'
+            , 'font-awesome-webpack!./config/font-awesome.config.js'
+            , './app/index'
+            ]
+          , output:
+            { path: join(__dirname, 'dist')
+              //path: join(__dirname, 'build', 'assets')
+            , filename: 'bundle.js'
+            , publicPath: '/static/'
+            //, chunkFilename: "[chunkhash].js"
+            }
+          , resolveLoader:
+            { modulesDirectories: ['web_modules', 'node_modules']
+            }
+          , resolve:
+            { root: root
+            , extensions: extensions
+            , modulesDirectories: [ 'web_modules', 'node_modules' ]
+            , fallback: [ 'node_modules/bootstrap/fonts' ]
+            //, request: 'browser-request'
+            }
           , module: { loaders: loaders }
           , plugins: plugins
           }

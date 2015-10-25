@@ -1,0 +1,60 @@
+@base03:  #002b36;
+@base02:  #073642;
+@base01:  #586e75;
+@base00:  #657b83;
+@base0:   #839496;
+@base1:   #93a1a1;
+@base2:   #eee8d5;
+@base3:   #fdf6e3;
+@yellow:  #b58900;
+@orange:  #cb4b16;
+@red:     #dc322f;
+@magenta: #d33682;
+@violet:  #6c71c4;
+@blue:    #268bd2;
+@cyan:    #2aa198;
+@green:   #859900;
+
+.make-indexer-property(@index, @max, @class-prefix, @prop, @unit: px, @increment: 1) when (@index =< @max) {
+  .@{class-prefix}@{index} {
+    @{prop}: unit(@index, @unit);
+  }
+  .make-indexer-property(@index+@increment, @max, @class-prefix, @prop, @unit, @increment);
+}
+
+.make-color-properties(@color-name, @color) {
+  .b-@{color-name} {
+    border-color: @color;
+  }
+
+  .bg-@{color-name} {
+    background-color: @color;
+  }
+
+  .fg-@{color-name} {
+    color: @color;
+  }
+}
+
+.b {
+  border: 1px solid;
+}
+
+.make-indexer-property(1, 50, b-, border-width);
+
+.make-color-properties(base03, @base03);
+.make-color-properties(base02, @base02);
+.make-color-properties(base01, @base01);
+.make-color-properties(base00, @base00);
+.make-color-properties(base0, @base0);
+.make-color-properties(base1, @base1);
+.make-color-properties(base2, @base2);
+.make-color-properties(base3, @base3);
+.make-color-properties(yellow, @yellow);
+.make-color-properties(orange, @orange);
+.make-color-properties(red, @red);
+.make-color-properties(magenta, @magenta);
+.make-color-properties(violet, @violet);
+.make-color-properties(blue, @blue);
+.make-color-properties(cyan, @cyan);
+.make-color-properties(green, @green);

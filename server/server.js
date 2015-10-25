@@ -1,4 +1,5 @@
-import restify from "restify"
+//import restify from "restify"
+import express from 'express'
 import path from "path"
 import Renderer from "./renderers/Renderer"
 import prerenderApi from "./api/prerender"
@@ -13,7 +14,9 @@ export default class Server {
     this.props.middlewares.push(middleware)
   }
   start() {
-    let server = restify.createServer()
+    //let server = restify.createServer()
+    let server = express()
+    /*
     server.pre(restify.pre.userAgentConnection())
     server.use(restify.acceptParser(server.acceptable))
     server.use(restify.authorizationParser())
@@ -22,15 +25,18 @@ export default class Server {
     server.use(restify.gzipResponse())
     server.use(restify.bodyParser())
     server.use(restify.requestLogger())
+    */
 
     this.props.middlewares.map(_ => { server.use(_) })
 
+/*
     server.use(restify.CORS({ origins: this.props.hostname
       ? [`http:\/\/${this.props.hostname}:${this.props.port}`]
       : [`http:\/\/localhost:${this.props.port}`]
       , credentials: true
       , headers: ['content-type']
     }))
+*/
 
     let publicPath = "http://localhost:2992/assets"
     let assetsPath = path.join(__dirname, '..', 'build', 'assets')
@@ -41,9 +47,9 @@ export default class Server {
                                 , commonsUrl: `${publicPath}/commons.js`
                                 })
 
-    server.get(/\/assets\/?.*/, restify.serveStatic({ directory: assetsPath }))
-    server.get(/\/?.*/, function render(req, res, next) {
-      renderer.render(
+//    server.get(/\/assets\/?.*/, restify.serveStatic({ directory: assetsPath }))
+//   server.get(/\/?.*/, function render(req, res, next) {
+/*      renderer.render(
         req.path,
         prerenderApi(req),
         function(err, html) {
@@ -57,9 +63,17 @@ export default class Server {
           res.end(html)
         })
     })
+*/
+    server.get('*', function(req, res) {
+      res.sendFile(path.join(__dirname, '..', 'app', 'index.html'))
+    })
 
-    server.listen(this.props.port, function listening() {
-      console.log(`${server.name} listening at ${server.url}`)
+    server.listen(this.props.port, this.props.hostname, err => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      console.log(`Listening at http:\/\/${this.props.hostname}:${this.props.port}`)
     })
   }
 }

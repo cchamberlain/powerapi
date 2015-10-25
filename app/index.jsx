@@ -1,27 +1,20 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { Router, Route } from "react-router"
-import StoresWrapper from "./StoresWrapper"
 
 import App from "containers/App"
 import Home from "containers/Home"
-import Setup from "containers/Setup"
+import Endpoints from "containers/Endpoints"
+import Remotes from "containers/Remotes"
 import NoMatch from "containers/NoMatch"
 
-ReactDOM.render((
+ReactDOM.render(
   <Router>
     <Route path="/" component={App}>
       <Route path="home" component={Home} />
-      <Route path="setup" component={Setup} />
+      <Route path="endpoints" component={Endpoints} />
+      <Route path="remotes" component={Remotes} />
       <Route path="*" component={NoMatch}/>
     </Route>
-  </Router>
-  ), document.getElementById("root"))
-
-
-if (module.hot) {
-  module.hot.accept();
-  module.hot.dispose(function() {
-    clearInterval(timer);
-  });
-}
+  </Router>, document.getElementById("root")
+)

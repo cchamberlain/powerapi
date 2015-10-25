@@ -16,67 +16,91 @@ export class EndpointForm extends React.Component {
                   , endpoints: props.endpoints
                   }
   }
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({url: e.target.value})
   }
-  handleAdd(e) {
-    let url = `${this.state.scheme}:\/\/${this.state.hostname}:${this.state.port}/${this.state.path}`
-    console.log(url)
-    if(validateUrl(url)) {
-      this.setState({endpoints: this.state.endpoints.concat([url])})
-    } else {
-      this.setState({show: true})
-    }
+  handleAdd = e => {
+    let url = Endpoint.toUrl(this.state)
+    if(this.state.endpoints.some(_ => Endpoint.toUrl(_) === url))
+      return this.showError(`Endpoint ${url} already exists.`)
+    this.setState({ endpoints: this.state.endpoints.concat([ Endpoint.toProps(this.state) ])
+                  , scheme: this.props.scheme
+                  , hostname: this.props.hostname
+                  , port: this.props.port
+                  , path: this.props.path
+                  })
   }
   handleRemove = url => {
-    this.setState({endpoints: this.state.endpoints.filter((_, i) => _ !== url)})
+    this.setState({endpoints: this.state.endpoints.filter((_, i) => Endpoint.toUrl(_) !== url)})
   }
+  showError = err => {
+    this.setState({ alertText: err
+                  , showAlert: true })
+  }
+  getEndpoints = () => this.state.endpoints.map((_, i) => (
+      <Endpoint key={i}
+        scheme={_.scheme}
+        hostname={_.hostname}
+        port={_.port}
+        path={_.path}
+        onRemove={this.handleRemove} />
+    )
+  )
   render() {
-    return <Grid>
-    <Row>
+    return <Row>
+        <SweetAlert
+          show={this.state.showAlert}
+          title="You messed up!"
+          text={this.state.alertText}
+          onConfirm={() => this.setState({ showAlert: false })} />
       <Col xs={12}>
         <Row>
-        <form className="form-inline">
-          {`${this.props.scheme}:\/\/ `}
-          <div className="form-group">
-            <label className="sr-only">hostname</label>
-            <input type="text" id="urlHostname" className="form-control"
-              value={this.state.hostname}
-              onChange={e => this.setState({hostname: e.target.value})}
-              placeholder="hostname" />
+          <Col xs={12}>
+          <div className="well well-sm bg-base03 b-base01">
+          <form className="form-inline">
+            <span className="label label-default bg-green">{`${this.state.scheme}:\/\/`}</span>
+            {' '}
+            <div className="input-group input-group-sm">
+              <label className="sr-only">hostname</label>
+              <input type="text" id="urlHostname" className="form-control bg-cyan fg-base2"
+                value={this.state.hostname}
+                onChange={e => this.setState({hostname: e.target.value})}
+                placeholder="hostname" />
+            </div>
+            {' '}
+            <span className="label label-default bg-green">:</span>
+            {' '}
+            <div className="input-group input-group-sm">
+              <label className="sr-only">port</label>
+              <input type="text" id="urlPort" className="form-control"
+                value={this.state.port}
+                onChange={e => this.setState({port: e.target.value})}
+                placeholder="port" />
+            </div>
+            {' '}
+            <div xs={6} className="input-group input-group-sm">
+              <label className="sr-only">path</label>
+              <input type="text" id="urlPath" className="form-control"
+                value={this.state.path}
+                onChange={e => {
+                  if(e.target.value.startsWith('/'))
+                    this.setState({path: e.target.value})
+                }}
+                placeholder="path" />
+            </div>
+            <button className="btn btn-default btn-sm pull-right"
+              onClick={this.handleAdd}>Add Endpoint</button>
+          </form>
           </div>
-          {' : '}
-          <div className="form-group">
-            <label className="sr-only">port</label>
-            <input type="text" id="urlPort" className="form-control"
-              value={this.state.port}
-              onChange={e => this.setState({port: e.target.value})}
-              placeholder="port" />
-          </div>
-          {' / '}
-          <div xs={6} className="form-group">
-            <label className="sr-only">path</label>
-            <input type="text" id="urlPath" className="form-control"
-              value={this.state.path}
-              onChange={e => this.setState({path: e.target.value})}
-              placeholder="path" />
-          </div>
-          <button className="btn btn-default pull-right" onClick={this.handleAdd}>Add Endpoint</button>
-        </form>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            {this.getEndpoints()}
+          </Col>
         </Row>
       </Col>
     </Row>
-    <Row>
-      <Col xs={12}>
-        <EndpointList endpoints={this.state.endpoints} handleRemove={this.handleRemove} />
-      </Col>
-    </Row>
-    <SweetAlert
-        show={this.state.show}
-        title="Wrong!"
-        text={`Does ${this.state.url} look like a url to you?`}
-        onConfirm={() => this.setState({ show: false })} />
-    </Grid>
   }
 }
 EndpointForm.propTypes =  { scheme: React.PropTypes.string
@@ -88,39 +112,27 @@ EndpointForm.propTypes =  { scheme: React.PropTypes.string
 EndpointForm.defaultProps = { scheme: 'http'
                             , hostname: 'localhost'
                             , port: 8080
+                            , path: '/'
                             , endpoints: []
                             }
 
-
-export class EndpointList extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { endpoints: props.endpoints }
-  }
-  render() {
-    var endpointNodes = this.props.endpoints.map((endpoint, i) => {
-      return <Endpoint key={i} url={endpoint} onRemove={this.props.handleRemove}></Endpoint>
-    })
-    return <div className="endpointList">
-      {endpointNodes}
-    </div>
-  }
-}
-EndpointList.propTypes = { endpoints: React.PropTypes.array }
 
 export class Endpoint extends React.Component {
   constructor(props) {
     super(props)
   }
+  static toBaseUrl = x => `${x.scheme}:\/\/${x.hostname}:${x.port}`
+  static toUrl = x => `${Endpoint.toBaseUrl(x)}${x.path}`
+  static toProps = x => ({ scheme: x.scheme, hostname: x.hostname, port: x.port, path: x.path })
   render() {
-    let url = () => `${this.props.scheme}:\/\/${this.props.hostname}:${this.props.port}/${this.props.path}`
+    let url = Endpoint.toUrl(this.props)
     return <Row>
         <Col xs={8}>
           <a href={url}>{url}</a>
         </Col>
         <Col xs={4}>
           <button className="btn btn-danger pull-right"
-            onClick={() => this.props.onRemove(this.props.url)}>Remove</button>
+            onClick={() => this.props.onRemove(url)}>Remove</button>
         </Col>
       </Row>
   }
@@ -130,7 +142,4 @@ Endpoint.propTypes =  { scheme: React.PropTypes.string
                       , port: React.PropTypes.number
                       , path: React.PropTypes.string
                       }
-Endpoint.defaultProps = { scheme: 'http'
-                        , hostname: 'localhost'
-                        , port: 8080
-                        }
+Endpoint.defaultProps = { scheme: 'http' }
