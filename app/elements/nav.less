@@ -1,8 +1,20 @@
+@import "../styles/colors.less";
+@import "../styles/fonts.less";
+
 .navbar-brand {
-  font-family: "ocr-a-std",sans-serif;
+  .font-brand;
   letter-spacing: 0.5em;
 }
 
 .navbar {
   font-size:1.2em;
+}
+
+.navbar-solarized .navbar-nav > li > a {
+  .fg-green;
+}
+
+.navbar-solarized .navbar-nav > li > a:hover {
+  .bg-base03;
+  border-bottom:1px solid @red;
 }

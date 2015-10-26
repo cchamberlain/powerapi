@@ -1,27 +1,31 @@
-@import "../styles/solarized-dark.less";
-//@import "./colors.less";
+@import "../styles/colors.less";
+@import "../styles/fonts.less";
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-@navbar-gradient-start-color: #FFF;
-@navbar-gradient-stop-color: #E8E8E8;
-@navbar-gradient-start-color-2: #DDDDDD;
-@navbar-gradient-stop-color-2: #E8E8E8;
-.navbar-inverse {
-    #gradient > .vertical-four-colors(@navbar-gradient-start-color,@navbar-gradient-stop-color, 50%, @navbar-gradient-start-color-2, 50%, @navbar-gradient-stop-color-2);
-}
-
 body {
-  background-color: #002b36;
+  .bg-base03;
+  .fg-base0;
+  .font-content;
   padding-top:70px;
-  font-family: "source-code-pro",sans-serif;
+}
+
+h1 {
+  .fg-green;
+  .font-header;
 }
 
 
-.this {
-  background: #002b36;
-  background-color: #002b36;
-  color: #839496;
-  padding-top:20px;
+.page-header small {
+  .fg-green;
+}
+
+.page-header {
+  border-bottom: 1px solid @green;
+  .font-header;
+}
+
+a {
+  .fg-blue;
 }
 

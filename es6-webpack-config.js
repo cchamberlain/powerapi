@@ -12,6 +12,7 @@ export default function makeConfig(options) {
                 { test: /\.js$|\.jsx$|\.es6$|\.babel$/, include: /app/
                   , loader: 'babel'
                   , query:  { stage: 0
+                            , optional: "runtime"
                             , plugins: ['react-transform']
                             , "extra":
                               { "react-transform":
