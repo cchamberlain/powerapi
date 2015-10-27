@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { FAIcon } from './fa'
+import { ListFALink, FALink, FAIcon } from './fa'
 import './nav.less'
 
 function* entries(obj) {
@@ -14,53 +14,32 @@ export class Navbar extends React.Component {
     super(props)
     console.log(props.areas)
   }
-  getFALink = x => (<Link to={x.to} {...x}>
-                              <FAIcon icon={x.icon} size={x.size} />
-                              {` ${x.title}`}
-                           </Link>)
+  render() {
+    let getLink = (path, area) => <FALink to={path} icon={area.icon} size={area.size} title={area.title} />
 
-  render = () => {
-    let navLinks = []
-    for(let [path, area] of entries(this.props.areas)) {
-      navLinks.push(<li>{this.getFALink({to: path, ...area})}</li>)
+    let getNavLinks = areas => {
+      let navLinks = []
+      for(let [path, area] of entries(areas)) {
+        if(path === '/') continue
+        navLinks.push(<ListFALink key={path} to={path} icon={area.icon} size={area.size} title={area.title} />)
+      }
+      return navLinks;
     }
-
-    let primaryArea = this.props.areas['/']
-    primaryArea.className='navbar-brand'
-
 
     return (<nav className="navbar navbar-solarized navbar-fixed-top bg-base02">
     <div className="container">
       <div className="navbar-header">
-        {getFALink(primaryArea)}
-        {/*
-        <Link className="navbar-brand" to='/home'>
-          <i className="fa fa-power-off fa-lg fg-blue" />
-          <span className="fg-blue">powerapi</span>
-        </Link>
-      */}
+        <div className="navbar-brand">
+          {getLink('/', this.props.areas['/'])}
+        </div>
       </div>
       <div className="collapse navbar-collapse">
         <ul className="nav navbar-nav">
-          {navLinks}
-          {/*
-          <li>
-            <Link to='/endpoints'>
-              <i className="fa fa-bullseye fa-lg" />
-              {' endpoints'}
-            </Link>
-          </li>
-          <li>
-            <Link to='/remotes'>
-              <i className="fa fa-connectdevelop fa-lg" />
-              {' remotes'}
-            </Link>
-          </li>
-        */}
+          {getNavLinks(this.props.areas)}
         </ul>
       </div>
     </div>
   </nav>)
   }
 }
-//Navbar.propTypes = { areas: React.PropTypes.array }
+Navbar.propTypes =  { areas: React.PropTypes.object.isRequired }

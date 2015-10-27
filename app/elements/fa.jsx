@@ -1,5 +1,28 @@
 import React from 'react'
+import { Link } from 'react-router'
 import 'font-awesome-webpack'
+
+export class ListFALink extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return <li><FALink {...this.props} /></li>
+  }
+}
+
+export class FALink extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (<Link to={this.props.to}>
+        <FAIcon icon={this.props.icon} size={this.props.size} />
+        {` ${this.props.title}`}
+      </Link>)
+  }
+
+}
 
 export class FAIcon extends React.Component {
   constructor(props) {
