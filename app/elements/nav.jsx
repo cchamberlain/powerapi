@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router'
-import { ListFALink, FALink, FAIcon } from './fa'
+import { ListIconLink, IconLink, Icon } from './fa'
 import './nav.less'
 
 function* entries(obj) {
@@ -12,16 +12,15 @@ function* entries(obj) {
 export class Navbar extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props.areas)
   }
   render() {
-    let getLink = (path, area) => <FALink to={path} icon={area.icon} size={area.size} title={area.title} />
+    let getLink = (path, area) => <IconLink to={path} icon={area.icon} size={area.size} title={area.title} />
 
     let getNavLinks = areas => {
       let navLinks = []
       for(let [path, area] of entries(areas)) {
         if(path === '/') continue
-        navLinks.push(<ListFALink key={path} to={path} icon={area.icon} size={area.size} title={area.title} />)
+        navLinks.push(<ListIconLink key={path} to={path} icon={area.icon} size={area.size} title={area.title} />)
       }
       return navLinks;
     }

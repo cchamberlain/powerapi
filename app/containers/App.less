@@ -1,7 +1,12 @@
-@import "../styles/colors.less";
+@import "../styles/extensions.less";
 @import "../styles/fonts.less";
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+html {
+  .bg-base03;
+  background-color:@base03;
+}
 
 body {
   .bg-base03;
@@ -21,11 +26,53 @@ h1 {
 }
 
 .page-header {
-  border-bottom: 1px solid @green;
+  border-bottom: 2px solid @green;
   .font-header;
 }
+
 
 a {
   .fg-blue;
 }
+
+
+input[type=text] {
+  .bg-base02;
+  .fg-blue;
+}
+
+.input-group-lg input[type=text] {
+  .fg-green;
+  .b-base01;
+}
+
+
+.btn-default {
+  .bg-base02;
+  .fg-blue;
+}
+
+.btn-danger {
+  .bg-base01;
+  .b-base01;
+  .fg-red;
+}
+
+.input-group-addon {
+  .bg-base02;
+  .b-base01;
+  .fg-green;
+}
+
+.well {
+  .bg-base02;
+  .fg-green;
+  border-color:@base01;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
 

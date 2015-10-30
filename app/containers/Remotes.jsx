@@ -4,5 +4,7 @@ export default class Remotes extends React.Component {
   constructor(props) {
     super(props)
   }
-  render = () => (<div>REMOTES</div>)
+  render() {
+    return <div>REMOTES</div>
+  }
 }

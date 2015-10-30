@@ -1,0 +1,20 @@
+.make-indexer-property(@index, @max, @class-prefix, @prop, @unit: px, @increment: 1) when (@index =< @max) {
+  .@{class-prefix}@{index} {
+    @{prop}: unit(@index, @unit);
+  }
+  .make-indexer-property(@index+@increment, @max, @class-prefix, @prop, @unit, @increment);
+}
+
+.make-color-properties(@color-name, @color) {
+  .b-@{color-name} {
+    border-color: @color;
+  }
+
+  .bg-@{color-name} {
+    background-color: @color;
+  }
+
+  .fg-@{color-name} {
+    color: @color;
+  }
+}

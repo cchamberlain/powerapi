@@ -15,46 +15,9 @@
 @cyan:    #2aa198;
 @green:   #859900;
 
-.make-indexer-property(@index, @max, @class-prefix, @prop, @unit: px, @increment: 1) when (@index =< @max) {
-  .@{class-prefix}@{index} {
-    @{prop}: unit(@index, @unit);
-  }
-  .make-indexer-property(@index+@increment, @max, @class-prefix, @prop, @unit, @increment);
-}
-
-.make-color-properties(@color-name, @color) {
-  .b-@{color-name} {
-    border-color: @color;
-  }
-
-  .bg-@{color-name} {
-    background-color: @color;
-  }
-
-  .fg-@{color-name} {
-    color: @color;
-  }
-}
-
-.b {
-  border: 1px solid;
-}
-
-.make-indexer-property(1, 50, b-, border-width);
-
-.make-color-properties(base03, @base03);
-.make-color-properties(base02, @base02);
-.make-color-properties(base01, @base01);
-.make-color-properties(base00, @base00);
-.make-color-properties(base0, @base0);
-.make-color-properties(base1, @base1);
-.make-color-properties(base2, @base2);
-.make-color-properties(base3, @base3);
-.make-color-properties(yellow, @yellow);
-.make-color-properties(orange, @orange);
-.make-color-properties(red, @red);
-.make-color-properties(magenta, @magenta);
-.make-color-properties(violet, @violet);
-.make-color-properties(blue, @blue);
-.make-color-properties(cyan, @cyan);
-.make-color-properties(green, @green);
+// Brand Colors
+@brand-primary: @blue;
+@brand-success: @green;
+@brand-warning: @orange;
+@brand-danger: @red;
+@brand-info: @base2;

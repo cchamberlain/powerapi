@@ -43,6 +43,7 @@ export class EndpointForm extends React.Component {
         hostname={_.hostname}
         port={_.port}
         path={_.path}
+        name={_.path.substring(1).replace(/\//g, '-') || 'root'}
         onRemove={this.handleRemove} />
     )
   )
@@ -56,31 +57,29 @@ export class EndpointForm extends React.Component {
       <Col xs={12}>
         <Row>
           <Col xs={12}>
-          <div className="well well-sm bg-base03 b-base01">
           <form className="form-inline">
-            <span className="label label-default bg-green">{`${this.state.scheme}:\/\/`}</span>
+            <div className="form-group form-group-sm">
+
+            <span className="label label-default bg-base02 fg-blue">{`${this.state.scheme}:\/\/`}</span>
             {' '}
-            <div className="input-group input-group-sm">
-              <label className="sr-only">hostname</label>
-              <input type="text" id="urlHostname" className="form-control bg-cyan fg-base2"
+            <label className="sr-only" htmlFor="urlHostname">hostname</label>
+            <input type="text" id="urlHostname" className="form-control"
                 value={this.state.hostname}
                 onChange={e => this.setState({hostname: e.target.value})}
                 placeholder="hostname" />
-            </div>
             {' '}
-            <span className="label label-default bg-green">:</span>
+            <span className="label label-default bg-base02 fg-blue">:</span>
             {' '}
-            <div className="input-group input-group-sm">
-              <label className="sr-only">port</label>
-              <input type="text" id="urlPort" className="form-control"
+
+            <label className="sr-only" htmlFor="urlPort">port</label>
+            <input type="text" id="urlPort" className="form-control"
                 value={this.state.port}
                 onChange={e => this.setState({port: e.target.value})}
                 placeholder="port" />
-            </div>
+
             {' '}
-            <div xs={6} className="input-group input-group-sm">
-              <label className="sr-only">path</label>
-              <input type="text" id="urlPath" className="form-control"
+            <label className="sr-only" htmlFor="urlPath">path</label>
+            <input type="text" id="urlPath" className="form-control"
                 value={this.state.path}
                 onChange={e => {
                   if(e.target.value.startsWith('/'))
@@ -91,10 +90,9 @@ export class EndpointForm extends React.Component {
             <button className="btn btn-default btn-sm pull-right"
               onClick={this.handleAdd}>Add Endpoint</button>
           </form>
-          </div>
           </Col>
         </Row>
-        <Row>
+        <Row className="m-top-20">
           <Col xs={12}>
             {this.getEndpoints()}
           </Col>
@@ -120,26 +118,51 @@ EndpointForm.defaultProps = { scheme: 'http'
 export class Endpoint extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      name: props.name
+    }
   }
   static toBaseUrl = x => `${x.scheme}:\/\/${x.hostname}:${x.port}`
   static toUrl = x => `${Endpoint.toBaseUrl(x)}${x.path}`
   static toProps = x => ({ scheme: x.scheme, hostname: x.hostname, port: x.port, path: x.path })
   render() {
     let url = Endpoint.toUrl(this.props)
-    return <Row>
+    return <Row className="vertical-align">
+      <Col xs={12}>
+
+      <Row className="well well-sm">
+      <label className="sr-only" htmlFor="endpointTitle">path</label>
+      <div className="input-group input-group-lg">
+        <span className="input-group-addon">endpoint</span>
+        <input type="text" id="endpointName" className="form-control"
+            placeholder="New Endpoint"
+            value={this.state.name}
+            onChange={e => this.setState({name: e.target.value})} />
+        <span className="input-group-btn">
+          <button className="btn btn-danger"
+            onClick={() => this.props.onRemove(url)}>
+              <i className="fa fa-trash-o fa-lg" />
+          </button>
+        </span>
+      </div>
+        <Row className="m-top-20">
         <Col xs={8}>
-          <a href={url}>{url}</a>
+          <p><a href={url}>{url}</a></p>
         </Col>
         <Col xs={4}>
-          <button className="btn btn-danger pull-right"
-            onClick={() => this.props.onRemove(url)}>Remove</button>
         </Col>
+        </Row>
       </Row>
+
+      </Col>
+
+    </Row>
   }
 }
 Endpoint.propTypes =  { scheme: React.PropTypes.string
                       , hostname: React.PropTypes.string
                       , port: React.PropTypes.number
                       , path: React.PropTypes.string
+                      , name: React.PropTypes.string.isRequired
+                      , methods: React.PropTypes.array
                       }
-Endpoint.defaultProps = { scheme: 'http' }

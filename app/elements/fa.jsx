@@ -1,41 +1,43 @@
 import React from 'react'
 import { Link } from 'react-router'
-import 'font-awesome-webpack'
 
-export class ListFALink extends React.Component {
+export class ListIconLink extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
-    return <li><FALink {...this.props} /></li>
+    return <li><IconLink {...this.props} /></li>
   }
 }
 
-export class FALink extends React.Component {
+export class IconLink extends React.Component {
   constructor(props) {
     super(props)
   }
   render() {
     return (<Link to={this.props.to}>
-        <FAIcon icon={this.props.icon} size={this.props.size} />
+        <Icon icon={this.props.icon} size={this.props.size} />
         {` ${this.props.title}`}
       </Link>)
   }
-
 }
 
-export class FAIcon extends React.Component {
+export class Icon extends React.Component {
   constructor(props) {
     super(props)
   }
-  getFAClass = () => {
-    let icon = this.getFAIcon()
-    let size = this.getFASize()
-    return  size ? `fa ${icon} ${size}` : `fa ${icon}`
+  getClass = () => {
+    let icon = `fa fa-${this.props.icon}`
+    if(this.props.icon.size)
+      icon += ` fa-${this.props.size}`
+    if(this.props.icon.spin) {
+      icon += ' fa-spin'
+    }
+    return icon
   }
-  getFAIcon = () => `fa-${this.props.icon}`
-  getFASize = () => this.props.size ? `fa-${this.props.size}` : null
-  render = () => <i className={this.getFAClass()} />
+  getSize = () => this.props.size ? `fa-${this.props.size}` : null
+  render = () => <i className={this.getClass()} />
 }
-FAIcon.propTypes =  { icon: React.PropTypes.string.isRequired
-                    , size: React.PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x'])}
+Icon.propTypes =  { icon: React.PropTypes.string.isRequired
+                    , size: React.PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x'])
+                    , spin: React.PropTypes.bool }
