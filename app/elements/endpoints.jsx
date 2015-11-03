@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col, ButtonGroup } from 'react-bootstrap'
 import SweetAlert from 'sweetalert-react'
 import { chainLog } from 'helpers/logging'
 import { validateUrl } from 'helpers/validators'
@@ -15,9 +15,6 @@ export class EndpointForm extends React.Component {
                   , path: props.path
                   , endpoints: props.endpoints
                   }
-  }
-  handleChange = e => {
-    this.setState({url: e.target.value})
   }
   handleAdd = e => {
     let url = Endpoint.toUrl(this.state)
@@ -83,7 +80,7 @@ export class EndpointForm extends React.Component {
                 value={this.state.path}
                 onChange={e => {
                   if(e.target.value.startsWith('/'))
-                    this.setState({path: e.target.value})
+                    this.setState({path: e.target.value.replace(/\s|\/+/g, '/')})
                 }}
                 placeholder="path" />
             </div>
@@ -118,15 +115,18 @@ EndpointForm.defaultProps = { scheme: 'http'
 export class Endpoint extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      name: props.name
-    }
+    this.state =  { name: props.name
+                  , parts: props.parts
+                  }
   }
   static toBaseUrl = x => `${x.scheme}:\/\/${x.hostname}:${x.port}`
   static toUrl = x => `${Endpoint.toBaseUrl(x)}${x.path}`
   static toProps = x => ({ scheme: x.scheme, hostname: x.hostname, port: x.port, path: x.path })
   render() {
     let url = Endpoint.toUrl(this.props)
+    let partSelected = part => this.setState({parts: this.state.parts.concat(part)})
+    let getParts = () => this.state.parts.map((part, i) => <div key={i}>{part.name}</div>)
+    let getLambdas = () => this.state.lambdas.map(lambda => <Lambda paramNames={lambda.paramNames} />)
     return <Row className="vertical-align">
       <Col xs={12}>
 
@@ -146,11 +146,15 @@ export class Endpoint extends React.Component {
         </span>
       </div>
         <Row className="m-top-20">
-        <Col xs={8}>
-          <p><a href={url}>{url}</a></p>
+        <Col xs={6}>
+          <UrlAnalysis onSelectPart={partSelected} {...this.props} />
         </Col>
-        <Col xs={4}>
-        </Col>
+          <Col xs={6}>
+            {getParts()}
+            {/*
+            <Lambda paramNames={["hot", "lauren"]} />
+          */}
+          </Col>
         </Row>
       </Row>
 
@@ -159,10 +163,90 @@ export class Endpoint extends React.Component {
     </Row>
   }
 }
-Endpoint.propTypes =  { scheme: React.PropTypes.string
+Endpoint.propTypes =  { name: React.PropTypes.string.isRequired
+                      , scheme: React.PropTypes.string
                       , hostname: React.PropTypes.string
                       , port: React.PropTypes.number
                       , path: React.PropTypes.string
-                      , name: React.PropTypes.string.isRequired
-                      , methods: React.PropTypes.array
+                      , parts: React.PropTypes.array
+                      , gets: React.PropTypes.array
+                      , posts: React.PropTypes.array
+                      , puts: React.PropTypes.array
+                      , deletes: React.PropTypes.array
                       }
+Endpoint.defaultProps = { parts: []
+                        }
+
+export class UrlAnalysis extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  isPortDefault = () => ((this.props.scheme === 'http' && this.props.port === 80) ||
+                        (this.props.scheme === 'https' && this.props.port === 443))
+  getHost = () => this.isPortDefault() ? this.props.hostname : `${this.props.hostname}:${this.props.port}`
+  render() {
+    return <div>{this.props.scheme}{'://'}{this.getHost()}<PathAnalysis path={this.props.path} onSelectPart={this.props.onSelectPart} /></div>
+  }
+}
+UrlAnalysis.propTypes = { scheme: React.PropTypes.string
+                        , hostname: React.PropTypes.string
+                        , port: React.PropTypes.number
+                        , path: React.PropTypes.string
+                        , onSelectPart: React.PropTypes.func
+                        }
+
+export class PathAnalysis extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  getParts = () => this.props.path.split('/').filter(part => part !== '').map((part, i) => {
+    if(part.startsWith(':')) {
+      return { ordinal: i, literal: part, name: part.substring(1), type: 'dynamic' }
+    }
+    return { ordinal: i, literal: part, name: part, type: 'static' }
+  })
+  render() {
+    let partInterior = part => {
+      if(part.type === 'dynamic')
+        return <span>
+          <span className="part part-accent">:</span>
+          <span className={`part part-${part.type}`}>
+            <button onClick={() => this.props.onSelectPart(part)}>{part.name}</button>
+          </span>
+        </span>
+      return <span className={`part part-${part.type}`}>{part.name}</span>
+    }
+    let partsMarkup = () => this.getParts().map((part, i) => <span key={i}>
+      {'/'}{partInterior(part)}
+    </span>)
+    return <span>{partsMarkup()}</span>
+  }
+}
+PathAnalysis.propTypes =  { path: React.PropTypes.string
+                          , onSelectPart: React.PropTypes.func
+                          }
+
+
+export class Lambda extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  getParamNames = () => this.props.paramNames.map(
+    (name, i) => <span key={i} className="param-name">{name}</span>
+  )
+  render() {
+    return <Row>
+      <h5>{this.verb}</h5>
+      {this.getParamNames()}
+    </Row>
+  }
+}
+Lambda.propTypes =  { paramNames: React.PropTypes.array
+                    , verb: React.PropTypes.oneOf(['GET', 'POST', 'PUT', 'DELETE'])
+                    , params: React.PropTypes.object
+                    , body: React.PropTypes.object
+                    }
+
+Lambda.defaultProps = { verb: 'GET'
+                      }
+
