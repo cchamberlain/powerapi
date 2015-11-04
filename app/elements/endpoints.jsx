@@ -61,7 +61,7 @@ export class EndpointForm extends React.Component {
             {' '}
             <label className="sr-only" htmlFor="urlHostname">hostname</label>
             <input type="text" id="urlHostname" className="form-control"
-                value={this.state.hostname}
+                value={this.state.hostname} autoComplete="off"
                 onChange={e => this.setState({hostname: e.target.value})}
                 placeholder="hostname" />
             {' '}
@@ -70,14 +70,14 @@ export class EndpointForm extends React.Component {
 
             <label className="sr-only" htmlFor="urlPort">port</label>
             <input type="text" id="urlPort" className="form-control"
-                value={this.state.port}
+                value={this.state.port} autoComplete="off"
                 onChange={e => this.setState({port: e.target.value})}
                 placeholder="port" />
 
             {' '}
             <label className="sr-only" htmlFor="urlPath">path</label>
             <input type="text" id="urlPath" className="form-control"
-                value={this.state.path}
+                value={this.state.path} autoComplete="off"
                 onChange={e => {
                   if(e.target.value.startsWith('/'))
                     this.setState({path: e.target.value.replace(/\s|\/+/g, '/')})
@@ -135,7 +135,7 @@ export class Endpoint extends React.Component {
       <div className="input-group input-group-lg">
         <span className="input-group-addon">endpoint</span>
         <input type="text" id="endpointName" className="form-control"
-            placeholder="New Endpoint"
+            placeholder="New Endpoint" autoComplete="off"
             value={this.state.name}
             onChange={e => this.setState({name: e.target.value})} />
         <span className="input-group-btn">
@@ -211,7 +211,7 @@ export class PathAnalysis extends React.Component {
         return <span>
           <span className="part part-accent">:</span>
           <span className={`part part-${part.type}`}>
-            <button onClick={() => this.props.onSelectPart(part)}>{part.name}</button>
+            <button className="btn btn-success" onClick={() => this.props.onSelectPart(part)}>{part.name}</button>
           </span>
         </span>
       return <span className={`part part-${part.type}`}>{part.name}</span>
