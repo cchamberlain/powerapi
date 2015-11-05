@@ -124,7 +124,6 @@ export class Endpoint extends React.Component {
   static toProps = x => ({ scheme: x.scheme, hostname: x.hostname, port: x.port, path: x.path })
   render() {
     let url = Endpoint.toUrl(this.props)
-    let partSelected = part => this.setState({parts: this.state.parts.concat(part)})
     let getParts = () => this.state.parts.map((part, i) => <div key={i}>{part.name}</div>)
     let getLambdas = () => this.state.lambdas.map(lambda => <Lambda paramNames={lambda.paramNames} />)
     return <Row className="vertical-align">
@@ -147,10 +146,13 @@ export class Endpoint extends React.Component {
       </div>
         <Row className="m-top-20">
         <Col xs={6}>
-          <UrlAnalysis onSelectPart={partSelected} {...this.props} />
+          <UrlAnalysis onSelectPart={p => this.setState({parts: this.state.parts.concat(p)})} {...this.props} />
         </Col>
           <Col xs={6}>
-            {getParts()}
+            <Lambda paramNames={this.state.parts.filter(n => n.type === 'dynamic').map(n => n.name)} />
+            {/*
+              getParts()
+            */}
             {/*
             <Lambda paramNames={["hot", "lauren"]} />
           */}
@@ -181,6 +183,7 @@ export class UrlAnalysis extends React.Component {
   constructor(props) {
     super(props)
   }
+  static getProps = url =>
   isPortDefault = () => ((this.props.scheme === 'http' && this.props.port === 80) ||
                         (this.props.scheme === 'https' && this.props.port === 443))
   getHost = () => this.isPortDefault() ? this.props.hostname : `${this.props.hostname}:${this.props.port}`
@@ -199,27 +202,27 @@ export class PathAnalysis extends React.Component {
   constructor(props) {
     super(props)
   }
-  getParts = () => this.props.path.split('/').filter(part => part !== '').map((part, i) => {
+  getParts() = () => PathAnalysis.getParts(this.props.path)
+  static getParts = path => path.split('/').filter(part => part !== '').map((n, i) => {
     if(part.startsWith(':')) {
-      return { ordinal: i, literal: part, name: part.substring(1), type: 'dynamic' }
+      return { ordinal: i, literal: part, name: n.substring(1), type: 'dynamic' }
     }
-    return { ordinal: i, literal: part, name: part, type: 'static' }
+    return { ordinal: i, literal: part, name: n, type: 'static' }
   })
   render() {
     let partInterior = part => {
       if(part.type === 'dynamic')
-        return <span>
+        return (<span>
           <span className="part part-accent">:</span>
           <span className={`part part-${part.type}`}>
             <button className="btn btn-success" onClick={() => this.props.onSelectPart(part)}>{part.name}</button>
           </span>
-        </span>
+        </span>)
       return <span className={`part part-${part.type}`}>{part.name}</span>
     }
-    let partsMarkup = () => this.getParts().map((part, i) => <span key={i}>
-      {'/'}{partInterior(part)}
-    </span>)
-    return <span>{partsMarkup()}</span>
+    return <span>
+      {this.getParts().map((part, i) => <span key={i}>{'/'}{partInterior(part)}</span>)}
+    </span>
   }
 }
 PathAnalysis.propTypes =  { path: React.PropTypes.string
@@ -230,14 +233,18 @@ PathAnalysis.propTypes =  { path: React.PropTypes.string
 export class Lambda extends React.Component {
   constructor(props) {
     super(props)
+    console.log(props)
+    this.state =  { paramMaps: props.paramNames.map((n, i) => ({ name: n, ordinal: i }))
+                  }
   }
-  getParamNames = () => this.props.paramNames.map(
-    (name, i) => <span key={i} className="param-name">{name}</span>
-  )
   render() {
     return <Row>
       <h5>{this.verb}</h5>
-      {this.getParamNames()}
+      {this.state.paramMaps.map((n, i) => <Row key={i} className="lambda-param">
+        <Col xs={12}>
+          {n}blah
+        </Col>
+      </Row>)}
     </Row>
   }
 }
