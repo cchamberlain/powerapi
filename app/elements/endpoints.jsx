@@ -3,6 +3,7 @@ import { Grid, Row, Col, ButtonGroup } from 'react-bootstrap'
 import SweetAlert from 'sweetalert-react'
 import { chainLog } from 'helpers/logging'
 import { validateUrl } from 'helpers/validators'
+import { UrlAnalysis, PathAnalysis } from 'elements/urls'
 import 'sweetalert/dist/sweetalert.css'
 import './endpoints.less'
 
@@ -126,6 +127,8 @@ export class Endpoint extends React.Component {
     let url = Endpoint.toUrl(this.props)
     let getParts = () => this.state.parts.map((part, i) => <div key={i}>{part.name}</div>)
     let getLambdas = () => this.state.lambdas.map(lambda => <Lambda paramNames={lambda.paramNames} />)
+    let getDynamicParts = () => this.state.parts.filter(n => n.type === 'dynamic').map(n => n.name)
+
     return <Row className="vertical-align">
       <Col xs={12}>
 
@@ -149,13 +152,7 @@ export class Endpoint extends React.Component {
           <UrlAnalysis onSelectPart={p => this.setState({parts: this.state.parts.concat(p)})} {...this.props} />
         </Col>
           <Col xs={6}>
-            <Lambda paramNames={this.state.parts.filter(n => n.type === 'dynamic').map(n => n.name)} />
-            {/*
-              getParts()
-            */}
-            {/*
-            <Lambda paramNames={["hot", "lauren"]} />
-          */}
+            <Lambda paramNames={getDynamicParts()} />
           </Col>
         </Row>
       </Row>
@@ -176,59 +173,6 @@ Endpoint.propTypes =  { name: React.PropTypes.string.isRequired
                       }
 Endpoint.defaultProps = { parts: []
                         }
-
-export class UrlAnalysis extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  static getProps = url =>
-  isPortDefault = () => ((this.props.scheme === 'http' && this.props.port === 80) ||
-                        (this.props.scheme === 'https' && this.props.port === 443))
-  getHost = () => this.isPortDefault() ? this.props.hostname : `${this.props.hostname}:${this.props.port}`
-  render() {
-    return <div>{this.props.scheme}{'://'}{this.getHost()}<PathAnalysis path={this.props.path} onSelectPart={this.props.onSelectPart} /></div>
-  }
-}
-UrlAnalysis.propTypes = { scheme: React.PropTypes.string
-                        , hostname: React.PropTypes.string
-                        , port: React.PropTypes.number
-                        , path: React.PropTypes.string
-                        , onSelectPart: React.PropTypes.func
-                        }
-
-export class PathAnalysis extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  getParts = () => PathAnalysis.analyzePath(this.props.path)
-  static analyzePath(path) {
-    return path.split('/').filter(part => part !== '').map((n, i) => {
-      if(n.startsWith(':')) {
-        return { ordinal: i, literal: n, name: n.substring(1), type: 'dynamic' }
-      }
-      return { ordinal: i, literal: n, name: n, type: 'static' }
-    })
-  }
-  render() {
-    let partInterior = part => {
-      if(part.type === 'dynamic')
-        return (<span>
-          <span className="part part-accent">:</span>
-          <span className={`part part-${part.type}`}>
-            <button className="btn btn-success" onClick={() => this.props.onSelectPart(part)}>{part.name}</button>
-          </span>
-        </span>)
-      return <span className={`part part-${part.type}`}>{part.name}</span>
-    }
-    return <span>
-      {this.getParts().map((part, i) => <span key={i}>{'/'}{partInterior(part)}</span>)}
-    </span>
-  }
-}
-PathAnalysis.propTypes =  { path: React.PropTypes.string
-                          , onSelectPart: React.PropTypes.func
-                          }
-
 
 export class Lambda extends React.Component {
   constructor(props) {
