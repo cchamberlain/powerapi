@@ -159,9 +159,7 @@ export class Endpoint extends React.Component {
           </Col>
         </Row>
       </Row>
-
       </Col>
-
     </Row>
   }
 }
@@ -202,13 +200,15 @@ export class PathAnalysis extends React.Component {
   constructor(props) {
     super(props)
   }
-  getParts() = () => PathAnalysis.getParts(this.props.path)
-  static getParts = path => path.split('/').filter(part => part !== '').map((n, i) => {
-    if(part.startsWith(':')) {
-      return { ordinal: i, literal: part, name: n.substring(1), type: 'dynamic' }
-    }
-    return { ordinal: i, literal: part, name: n, type: 'static' }
-  })
+  getParts = () => PathAnalysis.analyzePath(this.props.path)
+  static analyzePath(path) {
+    return path.split('/').filter(part => part !== '').map((n, i) => {
+      if(n.startsWith(':')) {
+        return { ordinal: i, literal: n, name: n.substring(1), type: 'dynamic' }
+      }
+      return { ordinal: i, literal: n, name: n, type: 'static' }
+    })
+  }
   render() {
     let partInterior = part => {
       if(part.type === 'dynamic')
