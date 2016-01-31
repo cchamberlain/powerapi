@@ -1,0 +1,9 @@
+.idea/**/*
+.vscode/**/*
+build/**/*
+dist/**/*
+**/etc/**/*
+**/styles/**/*
+**/globals/**/*
+**/external/**/*
+**/jquery*.js
