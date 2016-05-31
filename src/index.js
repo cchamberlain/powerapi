@@ -1,4 +1,7 @@
-import { client } from './config.client'
-import { server } from './config.server'
+import { getServer } from './lib'
+import { configServers, configClients } from './etc'
 
-export { client, server }
+const lib = { getServer }
+const etc = { configServers, configClients }
+
+export { lib, etc }

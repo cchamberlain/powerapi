@@ -4,121 +4,72 @@
  * @module server/proxy
  */
 import httpProxy from 'http-proxy'
-import { createServerLogger } from '../config.server'
-import { readPfx } from './tls'
-import { getCors } from './cors'
-import { server as serverConfig } from '../config.server'
+import http from 'http'
+import https from 'https'
+import { server as serverConfig, log } from '../config'
 
-const logger = createServerLogger('proxy')
 const proxyListen = ({ name, fromPort, toHost, toPort }) => `proxy ${name} directing from :${fromPort} to ${toHost}:${toPort}`
 
-export default function configureProxies (server) {
-  var proxies = server.instance.get('proxies')
-    , bindings = server.instance.get('bindings')
-    , schemes = bindings.node.map(x => x.scheme)
-    , http = require('http')
-    , https = require('https')
-    , hasHttp = schemes.some(s => s === 'http')
-    , hasHttps = schemes.some(s => s === 'https')
-    , cors = getCors()
+export default function proxy() {
+  const cdnBindings = new Map(serverConfig.bindings.cdn)
+  const hasHttp = cdnBindings.has('http')
+  const hasHttps = cdnBindings.has('https')
+  //const cors = getCors()
+  const proxyConfigs = Array.isArray(serverConfig.proxies) ? serverConfig.proxies : [ serverConfig.proxies ]
+  if(proxyConfigs.length === 0)
+    return
 
   /*** Iterate proxy configs and start routing */
-  if(!proxies)
-    return
-  proxies.forEach(setupProxy)
+  proxyConfigs.forEach(config => {
+    const options = getProxyOptions(config)
+    const proxyServer = httpProxy.createProxyServer(options)
+    const listenMessage = proxyListen(config)
 
-  function setupProxy(config) {
-    console.log('PROXY CONFIG', JSON.stringify(config))
-    let options = getProxyOptions(config)
-      , proxy = httpProxy.createProxyServer(options)
-      , listenMessage = proxyListen(config)
-
-    proxy.on('error', (err, req, res) => {
-      logger.error(err, 'error proxying request')
+    proxyServer.on('error', (err, req, res) => {
+      log.error(err, 'error proxying request')
       res.end()
     })
 
-    proxy.on('proxyReq', (proxyReq, req, res, options) => {
-      // This event fires on proxy requests
-      /* TODO: ADD ABILITY TO SEND HEADERS BACK IN (TEST)
-      if(config.headers) {
-        for (var i = 0; i < config.headers.length; i++) {
-          var proxyHeader = config.headers[i]
-          res.setHeader(proxyHeader.name, proxyHeader.value)
-        }
-      }
-      */
-    })
+    proxyServer.on('proxyReq', (proxyReq, req, res, options) => { /* This event fires on proxy requests */ })
 
-    proxy.on('proxyRes', (proxyRes, req, res) => {
-      cors.handle(req, res)
-    })
 
-    if(config.fromScheme === 'http') {
-      logger.debug('starting http proxy...')
-      createProxyServer(http.createServer(onProxy))
-    } else if(config.fromScheme === 'https') {
-      logger.debug('starting https proxy...')
-      const { pfxName, passphrase } = serverConfig.tls
-      readPfx(pfxName, process.env.PASSPHRASE || passphrase)
-        .then(opts => createProxyServer(https.createServer(opts, onProxy)))
-        .catch(err => {
-          logger.error(err, 'an error occurred reading tls information')
-          process.exit(1)
-        })
+    createProxyServer(http.createServer(onProxy))
+
+    const createProxyServer = server => {
+      if (config.allowWebSockets)
+        server.on('upgrade', (req, socket, head) => server.ws(req, socket, head))
+      server.listen(config.fromPort, () => log.info(listenMessage))
     }
 
+    const onProxy = (req, res) => {
+      //if(!cors.isOk(req))
+        //return cors.handleFailure(req, res)
 
-    function createProxyServer(proxyServer) {
-      if (config.allowWebSockets) {
-        proxyServer.on('upgrade', function (req, socket, head) {
-          proxy.ws(req, socket, head)
-        })
-      }
-      proxyServer.listen(config.fromPort, function () { logger.info(listenMessage) })
+      if(config.stub && config.stub[req.method])
+        return proxyStub(req, res)
+
+      if(req.method === 'OPTIONS')
+        //return cors.handlePreflight(req, res)
+
+      if (config.latency)
+        setTimeout(() => proxyServer.web(req, res), config.latency)
+      else
+        proxyServer.web(req, res)
     }
 
-    function onProxy(req, res) {
-      if(cors.isOk(req)) {
-        if(config.stub && config.stub[req.method]) {
-          proxyStub(req, res)
-        } else {
-          if(req.method === 'OPTIONS') {
-            cors.handlePreflight(req, res)
-          } else {
-            proxyWeb(req, res)
-          }
-        }
-      } else {
-        cors.handleFailure(req, res)
-      }
-    }
-
-    function proxyWeb(req, res) {
-      if (config.latency) {
-        setTimeout(function () {
-          proxy.web(req, res)
-        }, config.latency)
-      } else {
-        proxy.web(req, res)
-      }
-    }
-
-    function proxyStub(req, res) {
+    const proxyStub = (req, res) => {
       var stub = config.stub[req.method]
       res.writeHead(200, stub.headers)
       if (stub.headers['content-length'] === 0) res.end()
       else res.end(JSON.stringify(stub.body))
     }
-  }
+  })
 }
 
-function getProxyOptions(config) {
-  var opts =  { target: config.toScheme + '://' + config.toHost + ':' + config.toPort
+const getProxyOptions = config => {
+  var opts =  { target: config.target || `${config.toScheme}://${config.toHost}:config.toPort`
               , xfwd: true
               }
-  if(config.fromScheme === 'https') {
-    opts.secure = true
-  }
+  opts.secure = config.secure
   return opts
 }

@@ -1,28 +1,36 @@
 #! /usr/bin/env node
+import 'babel-polyfill'
+import procmux from 'procmux'
 
-import fs from 'fs'
-import mkdirp from 'mkdirp'
-import { getServer } from '../lib'
-import { join, resolve } from 'path'
-import { server as serverConfig, __rootname, resolveRoot, createServerLogger } from '../config.server'
-const logger = createServerLogger('run')
+import { server, log } from '../config'
+import createServer, { definePaths } from '../lib'
 
-const serverPaths = { NODE_ROOT: __rootname
-                    , PUBLIC_ROOT: resolveRoot('public')
-                    , STATIC_ROOT: resolveRoot('public/static')
-                    , BIN_ROOT: resolveRoot(serverConfig.fs.BIN_ROOT)
-                    , LOG_ROOT: resolveRoot(serverConfig.fs.LOG_ROOT)
-                    }
+const run = () => definePaths()
+  .then(paths => {
+    log.info({ paths })
+    return createServer(paths).get('http').start()
+  })
+  .catch(err => log.fatal(err, 'A fatal error occurred.'))
 
-logger.info({ paths: serverPaths})
-
-/** Create log root */
-mkdirp(serverPaths.LOG_ROOT, err => {
-  if (err) {
-    console.error('An error occurred attempting to create log directory.', err)
-    process.exit(1)
+/*
+const mux = procmux((state = {}, action = {}) => {
+  console.warn('BUILD|REDUCE', state, action)
+  switch(action.type) {
+    case 'RUN':
+      return { ...state, status: 'RUNNING' }
+    case 'FINISHED':
+      return { ...state, status: 'IDLE' }
   }
-
-  let server = getServer({ config: serverConfig, paths: serverPaths })
-  server.start()
+  return state
 })
+
+mux.register('RUN', run)
+mux.init(run)
+*/
+
+let startDelay = 20000
+setTimeout(() => {
+  log.info('STARTING AFTER 20 SECOND BUILD DELAY')
+  module.export = run()
+}, startDelay)
+

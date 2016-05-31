@@ -1,10 +1,10 @@
-import { server } from '../config.server'
+import { server } from '../config.js'
 
-export function getDevTool(name) {
-  return 'eval'
-  /*
-  if(name === 'shim' || name === 'static') // TODO: FIGURE OUT WHY SOURCE MAP BREAKS IE8
-    return 'inline-source-map'
-  return server.flags.dev ? 'cheap-module-eval-source-map' : 'source-map'
-  */
+export default name => {
+  switch(name) {
+    case 'server':
+      return 'source-map'
+  }
+  if(process.env.NODE_ENV === 'hot')
+    return '#eval'
 }

@@ -1,29 +1,62 @@
-import { server, client, baseUrl, resolveRoot } from '../config.server'
+import { server, client, baseUrl, resolveRoot } from '../config.js'
 import { join } from 'path'
 
-const getAppendage = name => name === 'shim' ? '-shim' : ''
-const getFilename = name => `[name]${getAppendage(name)}.js`
-const getChunkFilename = name => `chunk-[name]${getAppendage(name)}.js`
-const getSourceMapFilename = name => `[file]${getAppendage(name)}.map`
+const getPath = name => {
+  switch(name) {
+    case 'server':
+      return resolveRoot('lib', 'app')
+    case 'static':
+      return resolveRoot('public', 'assets')
+    default:
+      return resolveRoot('public', 'assets')
+  }
+}
+
+const getPublicPath = name => {
+  switch(name) {
+    case 'server':
+      return '/lib/app'
+    case 'static':
+      return `${baseUrl}/assets/`
+    default:
+      return `${baseUrl}/assets/`
+  }
+}
+
+const getLibrary = name => {
+}
+
+const getLibraryTarget = name => {
+  switch(name) {
+    case 'server':
+      return 'commonjs2'
+  }
+}
+
+const getFilename = name => '[name].js'
+const getChunkFilename = name => '[name].js'
+const getSourceMapFilename = name => '[file].map'
 const getDevtoolModuleFilenameTemplate = name => 'file:///[absolute-resource-path]'
-const getHotUpdateChunkFilename = name => `[id].[hash]${getAppendage(name)}.hot-update.js`
-const getHotUpdateMainFilename = name => `[hash]${getAppendage(name)}.hot-update.json`
+const getHotUpdateChunkFilename = name => '[id].[hash].hot-update.js'
+const getHotUpdateMainFilename = name => '[hash].hot-update.json'
 const getCrossOriginLoading = name => 'anonymous'
 
-export function getOutput(name) {
-  let output =  { path: resolveRoot('public', name === 'static' ? 'static' : 'assets')
+
+
+export default name => {
+  let output =  { path: getPath(name)
+                , library: getLibrary(name)
+                , libraryTarget: getLibraryTarget(name)
                 , pathinfo: process.env.NODE_ENV === 'hot'
-                , publicPath: `${baseUrl}/${name === 'static' ? 'static' : 'assets'}/`
+                , publicPath: getPublicPath(name)
                 , filename: getFilename(name)
                 , chunkFilename: getChunkFilename(name)
+                , crossOriginLoading: getCrossOriginLoading(name)
                 //, devtoolModuleFilenameTemplate: getDevtoolModuleFilenameTemplate(name)
                 //, sourceMapFilename: getSourceMapFilename(name)
-                /*
-                , hotUpdateChunkFilename: getHotUpdateChunkFilename(name)
-                , hotUpdateMainFilename: getHotUpdateMainFilename(name)
-                , crossOriginLoading: getCrossOriginLoading(name)
-                */
+                //, hotUpdateChunkFilename: getHotUpdateChunkFilename(name)
+                //, hotUpdateMainFilename: getHotUpdateMainFilename(name)
                 }
-  console.warn('OUTPUT', JSON.stringify(output))
+  console.warn('OUTPUT', JSON.stringify(output, null, 2))
   return output
 }

@@ -1,32 +1,31 @@
-import { getDevTool } from './devtool'
-import { getTarget } from './target'
-import { getEntry } from './entry'
-import { getOutput } from './output'
-import { getResolve, getResolveLoader } from './resolve'
-import { getLoaders } from './loaders'
-import { getPlugins } from './plugins'
+import getDevTool from './devtool'
+import getTarget from './target'
+import getEntry from './entry'
+import getOutput from './output'
+import getResolve from './resolve'
+import getResolveLoader from './resolveLoader'
+import getModule from './module'
+import getExternals from './externals'
+import getPlugins from './plugins'
+import getPostcss from './postcss'
+import getNode from './node'
 
-
-function make(name) {
+export default function make(name) {
   if(typeof name !== 'string')
     throw new Error('Name is required.')
-  let target = getTarget(name)
   return  { name
-          , target
-          , devtool: getDevTool(name)
-          , cache: true
           , context: __dirname
+          , cache: true
+          , target: getTarget(name)
+          , devtool: getDevTool(name)
           , entry:  getEntry(name)
           , output: getOutput(name)
           , resolve: getResolve(name)
           , resolveLoader: getResolveLoader(name)
-          , module: { loaders: getLoaders(name)
-                    , noParse: /(jquery-ui)/
-                    }
+          , module: getModule(name)
+          , externals: getExternals(name)
           , plugins: getPlugins(name)
-          , node: target === 'web' ? { fs: 'empty', 'graceful-fs': 'empty' } : {}
+          , node: getNode(name)
+          , postcss: getPostcss(name)
           }
 }
-
-module.exports = make
-module.exports['default'] = make
